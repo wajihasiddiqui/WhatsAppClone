@@ -18,7 +18,7 @@
         android:layout_weight="1"
         android:layout_marginStart="10dp"
         android:layout_gravity="center_vertical"
-        android:orientation="vertical"s
+        android:orientation="vertical"
         android:layout_marginLeft="10dp">
 
         <LinearLayout
