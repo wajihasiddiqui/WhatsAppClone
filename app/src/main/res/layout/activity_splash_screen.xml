@@ -22,7 +22,7 @@
         android:id="@+id/textView"
         android:layout_width="172dp"
         android:layout_height="77dp"
-        android:layout_marginBottom="256dp"
+        android:layout_marginBottom="280dp"
         android:padding="20dp"
         android:text="WhatsApp"
         android:textSize="28sp"
