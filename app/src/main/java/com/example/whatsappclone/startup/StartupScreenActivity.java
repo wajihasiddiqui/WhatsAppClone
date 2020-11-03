@@ -7,8 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.whatsappclone.MainActivity;
 import com.example.whatsappclone.R;
+import com.example.whatsappclone.auth.login;
 
 public class StartupScreenActivity extends AppCompatActivity {
 
@@ -23,7 +23,7 @@ public class StartupScreenActivity extends AppCompatActivity {
         buttonagree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(StartupScreenActivity.this, MainActivity.class  ));
+                startActivity(new Intent(StartupScreenActivity.this, login.class  ));
             }
         });
     }
