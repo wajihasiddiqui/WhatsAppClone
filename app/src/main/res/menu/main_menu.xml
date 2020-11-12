@@ -9,11 +9,30 @@
         app:showAsAction="always"
         />
 
-    <item
-        android:id="@+id/menu_more"
-        android:icon="@drawable/ic_baseline_more_vert_24"
-        android:title="menu"
-        app:showAsAction="always"
-        />
+    <group
+        android:id="@+id/ac_more">
+        <item
+            android:id="@+id/ac_menu_group"
+            android:title="New group"
+            />
+        <item
+            android:id="@+id/ac_broadcast"
+            android:title="New broadcast"
+            />
+        <item
+            android:id="@+id/ac_whatsappweb"
+            android:title="WhatsApp Web"
+            />
+        <item
+            android:id="@+id/ac_strmessage"
+            android:title="Starred message"
+            />
+        <item
+            android:id="@+id/ac_setting"
+            android:title="Settings"
+            />
+    </group>
+
+
 
 </menu>
