@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
@@ -17,6 +18,7 @@ import android.view.MenuItem;
 import android.widget.ImageSwitcher;
 import android.widget.Toast;
 
+import com.example.whatsappclone.settings.SettingsActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
@@ -136,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "stared message", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.ac_setting:
-                Toast.makeText(this, "setting", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, SettingsActivity.class));
                 break;
 
         }
