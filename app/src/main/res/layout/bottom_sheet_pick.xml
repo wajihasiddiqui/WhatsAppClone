@@ -23,6 +23,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/In_gallery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
@@ -47,6 +48,7 @@
 
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/In_camera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
