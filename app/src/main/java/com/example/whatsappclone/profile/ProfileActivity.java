@@ -52,7 +52,7 @@ public class ProfileActivity extends AppCompatActivity {
     private BottomSheetDialog bottomsheetdialog;
 
     private int Image_gallry_request = 111;
-    private Uri imageUrl;
+    private Uri imageUri;
 
     ImageView img_profile;
 
@@ -151,8 +151,8 @@ public class ProfileActivity extends AppCompatActivity {
 
         try {
             File file = File.createTempFile("IMG_" + timeStamp, "jpg", getExternalFilesDir(Environment.DIRECTORY_PICTURES));
-            imageUrl = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".provider", file);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUrl);
+            imageUri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".provider", file);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
             intent.putExtra("listPhotoName", imageFileName);
             startActivityForResult(intent, 440);
 
@@ -177,7 +177,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         if (requestCode == Image_gallry_request && resultCode == RESULT_OK && data != null && data.getData() != null) {
 
-            imageUrl = data.getData();
+            imageUri = data.getData();
         }
 
         if (requestCode == 440 && resultCode == RESULT_OK) {
@@ -185,4 +185,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         }
     }
+
+
 }

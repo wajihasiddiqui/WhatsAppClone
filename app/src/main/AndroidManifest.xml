@@ -7,8 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA"/>
-<!--    <uses-feature android:name="android.hardware.Camera2" android:required="true" />-->
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -17,7 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".profile.ProfileActivity"></activity>
+        <activity android:name=".chats.ChatsActivity"></activity>
+        <activity android:name=".profile.ProfileActivity" />
         <activity android:name=".settings.SettingsActivity" />
         <activity android:name=".auth.login" />
         <activity android:name=".startup.StartupScreenActivity" />
@@ -31,7 +31,6 @@
         <activity android:name=".MainActivity" />
 
         <provider
-
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
             android:exported="false"
@@ -43,6 +42,5 @@
                 tools:replace="android:resource" />
         </provider>
     </application>
-
 
 </manifest>
