@@ -13,8 +13,10 @@ import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageSwitcher;
 import android.widget.Toast;
 
@@ -22,6 +24,7 @@ import com.example.whatsappclone.settings.SettingsActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static com.example.whatsappclone.R.id.fab_action;
@@ -51,6 +54,16 @@ public class MainActivity extends AppCompatActivity {
         setUpWithViewPager(viewPager);
         tablayout.setupWithViewPager(viewPager);
 
+        View tab1 = LayoutInflater.from(this).inflate(R.layout.custom_camera_tab, null);
+        try{
+            tablayout.getTabAt(0).setCustomView(tab1);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+
+        viewPager.setCurrentItem(1);
+
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -73,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
     private void setUpWithViewPager(ViewPager viewPager){
 
         MainActivity.SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new CameraFragment(),"CAMERA");
         adapter.addFragment(new ChatFragment(),"CHATS");
         adapter.addFragment(new StatusFragment(),"STATUS");
         adapter.addFragment(new CallFragment(),"CALLS");
@@ -157,18 +171,25 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
 
                 switch (index){
-                    case 0:
+
+                    case 0: fabaction.hide();
+                            break;
+
+                    case 1:
+                        fabaction.show();
                         //fabaction.setImageDrawable(getDrawable(R.drawable.ic_baseline_search_24));
                         fabaction.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_message_24));
                         break;
-                    case 1:
+                    case 2:
+                        fabaction.show();
                         fabaction.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_photo_camera_24));
                         break;
-                    case 2:
+                    case 3:
+                        fabaction.show();
                         fabaction.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_call_24));
                         break;
                 }
-                fabaction.show();
+
             }
         },400);
     }
