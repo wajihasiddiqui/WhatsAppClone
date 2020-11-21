@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.whatsappclone.R;
 import com.example.whatsappclone.model.calllist;
-import com.example.whatsappclone.model.chatlist;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.List;

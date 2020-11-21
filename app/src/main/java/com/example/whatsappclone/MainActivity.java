@@ -20,6 +20,8 @@ import android.view.View;
 import android.widget.ImageSwitcher;
 import android.widget.Toast;
 
+import com.example.whatsappclone.chats.ChatsActivity;
+import com.example.whatsappclone.contact.ContactActivity;
 import com.example.whatsappclone.settings.SettingsActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -179,6 +181,13 @@ public class MainActivity extends AppCompatActivity {
                         fabaction.show();
                         //fabaction.setImageDrawable(getDrawable(R.drawable.ic_baseline_search_24));
                         fabaction.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_message_24));
+
+                        fabaction.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                startActivity(new Intent(MainActivity.this, ContactActivity.class));
+                            }
+                        });
                         break;
                     case 2:
                         fabaction.show();
