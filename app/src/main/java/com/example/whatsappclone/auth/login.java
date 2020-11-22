@@ -1,4 +1,4 @@
-package com.example.whatsappclone.auth;
+ package com.example.whatsappclone.auth;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,7 +43,7 @@ public class login extends AppCompatActivity {
 
     private ProgressDialog progressDialog;
 
-  //  String[] countery = {"Pakistan","USA","China","other"};
+//  String[] countery = {"Pakistan","USA","China","other"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +89,8 @@ public class login extends AppCompatActivity {
             public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
 
                  Log.d(TAG,"onVerificationComplete: Complete");
+                 signInWithPhoneAuthCredential(phoneAuthCredential);
+                 progressDialog.dismiss();
 
 
             }
