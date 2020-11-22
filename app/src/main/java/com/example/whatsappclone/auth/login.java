@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.whatsappclone.MainActivity;
 import com.example.whatsappclone.R;
+import com.example.whatsappclone.settings.SettingsActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -138,14 +139,12 @@ public class login extends AppCompatActivity {
                         if (task.isSuccessful()) {
 
                             Log.d(TAG, "signInWithCredential:success");
-
                             FirebaseUser user = task.getResult().getUser();
+                            startActivity(new Intent(login.this, SettingsActivity.class));
                         } else {
 
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-                                // The verification code entered was invalid
-                                // [START_EXCLUDE silent]
                                 Log.d(TAG,"onComplete: Error Code");
 
                             }
