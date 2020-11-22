@@ -62,6 +62,11 @@ public class login extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
 
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if(firebaseUser != null){
+            startActivity(new Intent(this, SetUserInfoActivity.class));
+        }
+
         button = findViewById(R.id.btnNext);
         phone = findViewById(R.id.phone);
         resendCode = findViewById(R.id.resendCode);
@@ -151,32 +156,32 @@ public class login extends AppCompatActivity {
 
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = task.getResult().getUser();
-
-                            if(user != null){
-                                String userId = user.getUid();
-                                users users = new users(userId,
-                                        "",
-                                        user.getPhoneNumber(),
-                                        "",
-                                        "",
-                                        "",
-                                        "",
-                                        "",
-                                        "",
-                                        "");
-
-                                firestore.collection("users").document("userInfo").collection(userId).add(users)
-                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                            @Override
-                                            public void onSuccess(DocumentReference documentReference) {
-
-                                                startActivity(new Intent(login.this, SetUserInfoActivity.class));
-                                            }
-                                        });
-                            }
-                            else{
-                                Toast.makeText(getApplicationContext(),"Something Errror",Toast.LENGTH_SHORT).show();
-                            }
+                            startActivity(new Intent(login.this, SetUserInfoActivity.class));
+                            //if(user != null){
+//                                String userId = user.getUid();
+//                                users users = new users(userId,
+//                                        "",
+//                                        user.getPhoneNumber(),
+//                                        "",
+//                                        "",
+//                                        "",
+//                                        "",
+//                                        "",
+//                                        "",
+//                                        "");
+//
+//                                firestore.collection("users").document("userInfo").collection(userId).add(users)
+//                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                                            @Override
+//                                            public void onSuccess(DocumentReference documentReference) {
+//
+//                                                startActivity(new Intent(login.this, SetUserInfoActivity.class));
+//                                            }
+//                                        });
+//                            }
+//                            else{
+//                                Toast.makeText(getApplicationContext(),"Something Errror",Toast.LENGTH_SHORT).show();
+//                            }
 
 
                         } else {
