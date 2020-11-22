@@ -26,8 +26,6 @@ CallFragment extends Fragment {
         // Required empty public constructor
     }
 
-    private List<calllist> list = new ArrayList();
-    private RecyclerView recyclerview;
 
 
     @Override
@@ -36,21 +34,19 @@ CallFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_call, container, false);
 
-        recyclerview = view.findViewById(R.id.recyclerview);
+        RecyclerView recyclerview = view.findViewById(R.id.recyclerview);
         recyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        getCallList();
+        List<calllist> list = new ArrayList<>();
+//
+//        list.add(new calllist("001","wajiha","11/5/2020","https://tse3.mm.bing.net/th?id=OIP.Xa_FUFxWwz48najD3i5uCAHaFY&pid=Api&P=0&w=254&h=185","income"));
+//        list.add(new calllist("002","wajiha","11/5/2020","https://tse3.mm.bing.net/th?id=OIP.Xa_FUFxWwz48najD3i5uCAHaFY&pid=Api&P=0&w=254&h=185","missed"));
+//        list.add(new calllist("003","wajiha","11/5/2020","https://tse3.mm.bing.net/th?id=OIP.Xa_FUFxWwz48najD3i5uCAHaFY&pid=Api&P=0&w=254&h=185","income"));
+//
+//
+//        recyclerview.setAdapter(new calllistadapter(list,getContext()));
 
         return view;
     }
 
-    private void getCallList() {
-        list.add(new calllist("001","wajiha","11/5/2020","https://tse3.mm.bing.net/th?id=OIP.Xa_FUFxWwz48najD3i5uCAHaFY&pid=Api&P=0&w=254&h=185","income"));
-        list.add(new calllist("002","wajiha","11/5/2020","https://tse3.mm.bing.net/th?id=OIP.Xa_FUFxWwz48najD3i5uCAHaFY&pid=Api&P=0&w=254&h=185","missed"));
-        list.add(new calllist("003","wajiha","11/5/2020","https://tse3.mm.bing.net/th?id=OIP.Xa_FUFxWwz48najD3i5uCAHaFY&pid=Api&P=0&w=254&h=185","income"));
-
-
-        recyclerview.setAdapter(new calllistadapter(list,getContext()));
-
-    }
 }

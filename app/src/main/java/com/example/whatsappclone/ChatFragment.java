@@ -25,9 +25,6 @@ public class ChatFragment extends Fragment {
         // Required empty public constructor
     }
 
-    private List<chatlist> list = new ArrayList();
-    private RecyclerView recyclerview;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
