@@ -56,9 +56,9 @@ public class ContactActivity extends AppCompatActivity {
                     users user = new users();
 
                     user.setUserId(Uid);
-                    user.setUsername(username);
+                    user.setUserName(username);
                     user.setBio(description);
-                    user.setUrlprofile(urlprofile);
+                    user.setImageProfile(urlprofile);
 
                     if(Uid != null && !Uid.equals(user.getUserId())) {
                         list.add(user);

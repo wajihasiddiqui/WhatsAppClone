@@ -17,8 +17,10 @@ import android.widget.Toast;
 
 import com.example.whatsappclone.MainActivity;
 import com.example.whatsappclone.R;
+import com.example.whatsappclone.model.users;
 import com.example.whatsappclone.settings.SettingsActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
@@ -27,6 +29,8 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.concurrent.TimeUnit;
 
@@ -44,12 +48,19 @@ public class login extends AppCompatActivity {
 
     private ProgressDialog progressDialog;
 
+    private FirebaseUser firebaseUser;
+    private FirebaseFirestore firestore;
+    
+
 //  String[] countery = {"Pakistan","USA","China","other"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        auth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
 
         button = findViewById(R.id.btnNext);
         phone = findViewById(R.id.phone);
@@ -140,10 +151,38 @@ public class login extends AppCompatActivity {
 
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = task.getResult().getUser();
-                            startActivity(new Intent(login.this, SettingsActivity.class));
-                        } else {
 
+                            if(user != null){
+                                String userId = user.getUid();
+                                users users = new users(userId,
+                                        "",
+                                        user.getPhoneNumber(),
+                                        "",
+                                        "",
+                                        "",
+                                        "",
+                                        "",
+                                        "",
+                                        "");
+
+                                firestore.collection("users").document("userInfo").collection(userId).add(users)
+                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                            @Override
+                                            public void onSuccess(DocumentReference documentReference) {
+
+                                                startActivity(new Intent(login.this, SetUserInfoActivity.class));
+                                            }
+                                        });
+                            }
+                            else{
+                                Toast.makeText(getApplicationContext(),"Something Errror",Toast.LENGTH_SHORT).show();
+                            }
+
+
+                        } else {
+                            progressDialog.dismiss();
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
+
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 Log.d(TAG,"onComplete: Error Code");
 
