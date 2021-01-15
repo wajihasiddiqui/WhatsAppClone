@@ -23,7 +23,7 @@
         <activity android:name=".settings.SettingsActivity" />
         <activity android:name=".auth.login" />
         <activity android:name=".startup.StartupScreenActivity" />
-        <activity android:name=".SplashScreen">
+        <activity android:name=".startup.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

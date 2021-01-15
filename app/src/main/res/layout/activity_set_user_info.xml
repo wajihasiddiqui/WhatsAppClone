@@ -42,8 +42,8 @@
             android:layout_margin="20dp"
             app:civ_border_width="2dp"
             app:civ_border="true"
-            app:civ_border_color="@color/colorPrimaryDark"
-            android:src="@drawable/ic_baseline_photo_camera_24"
+            app:civ_border_color="@color/colorAccent"
+            android:src="@drawable/profile"
             >
         </com.mikhaellopez.circularimageview.CircularImageView>
 
@@ -53,9 +53,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
             android:layout_marginEnd="25dp"
-            android:hint="Type Your name here">
+            android:hint="Type Your name here"/>
 
-        </EditText>
 
     </LinearLayout>
 

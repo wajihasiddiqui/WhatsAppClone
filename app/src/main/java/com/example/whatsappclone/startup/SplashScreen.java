@@ -1,4 +1,4 @@
-package com.example.whatsappclone;
+package com.example.whatsappclone.startup;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,8 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-import com.example.whatsappclone.chats.ChatsActivity;
-import com.example.whatsappclone.startup.StartupScreenActivity;
+import com.example.whatsappclone.MainActivity;
+import com.example.whatsappclone.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 

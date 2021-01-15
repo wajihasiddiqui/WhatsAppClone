@@ -35,7 +35,7 @@
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/common_google_signin_btn_icon_light"
+            android:src="@drawable/profile"
             >
         </com.mikhaellopez.circularimageview.CircularImageView>
 
@@ -93,7 +93,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="15dp"
                         android:textColor="#292727"
-                        android:text="name">
+                        android:text="Name">
 
                     </TextView>
 
@@ -125,7 +125,7 @@
                     android:textSize="13dp"
                     android:textColor="#292727"
                     android:layout_marginTop="10dp"
-                    android:text="This is not your usename or pin.">
+                    android:text="This is not your username or pin.This name will be visible to your WhatsApp accounts.">
 
                 </TextView>
 
@@ -173,7 +173,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="15dp"
                         android:textColor="#292727"
-                        android:text="name">
+                        android:text="About">
 
                     </TextView>
 
@@ -188,25 +188,13 @@
                     </ImageButton>
                 </LinearLayout>
 
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="15dp"
-                    android:textColor="@android:color/black"
-                    android:text="Username">
-
-                </TextView>
-
                 <TextView
                     android:id="@+id/tv_abouts"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="13dp"
                     android:textColor="#292727"
-                    android:layout_marginTop="10dp"
-                    android:text="This is not your usename or pin.">
+                    android:text="Hey there! I am using WhatsApp.">
 
                 </TextView>
 
@@ -252,7 +240,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="15dp"
                         android:textColor="#292727"
-                        android:text="name">
+                        android:text="Phone">
 
                     </TextView>
 
@@ -268,24 +256,13 @@
                 </LinearLayout>
 
 
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="15dp"
-                    android:textColor="@android:color/black"
-                    android:text="Username">
-
-                </TextView>
-
                 <TextView
                     android:id="@+id/tv_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="13dp"
                     android:textColor="#292727"
-                    android:layout_marginTop="10dp"
-                    android:text="This is not your usename or pin.">
+                    android:text="phone Number">
 
                 </TextView>
 

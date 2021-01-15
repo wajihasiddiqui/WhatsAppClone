@@ -35,15 +35,8 @@ public class ChatFragment extends Fragment {
         RecyclerView recyclerview = view.findViewById(R.id.recyclerview);
         recyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
 
-//        list.add(new chatlist("11", "wajiha","hello","15/04/2020","https://tse3.mm.bing.net/th?id=OIP.Xa_FUFxWwz48najD3i5uCAHaFY&pid=Api&P=0&w=254&h=185"));
-//        list.add(new chatlist("12", "wajiha","hello","15/04/2020","https://tse1.mm.bing.net/th?id=OIP.r8soQNgKeW77Is5e_fCUCQHaHa&pid=Api&P=0&w=300&h=300"));
-//        list.add(new chatlist("13", "wajiha","hello","15/04/2020","https://tse1.mm.bing.net/th?id=OIP.11S6ygRSOPAQ_67To_nW3AHaEH&pid=Api&P=0&w=286&h=160"));
-//        list.add(new chatlist("14", "wajiha","hello","15/04/2020","https://tse3.mm.bing.net/th?id=OIP.eTCKYXrmICrgAr1f93GxPQHaFi&pid=Api&P=0&w=242&h=182"));
-//
-//        recyclerview.setAdapter(new chatlistadapter(list,getContext()));
-//
 
-
+//      recyclerview.setAdapter(new chatlistadapter(list,getContext()));
         return view;
     }
 

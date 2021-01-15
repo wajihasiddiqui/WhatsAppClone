@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.whatsappclone.R;
 import com.example.whatsappclone.profile.ProfileActivity;
@@ -23,6 +24,7 @@ import java.util.Objects;
 public class SettingsActivity extends AppCompatActivity {
 
 
+    TextView tv_username;
     private LinearLayout InProfile;
     private FirebaseUser firebaseUser;
     private FirebaseFirestore firestore;
@@ -35,6 +37,8 @@ public class SettingsActivity extends AppCompatActivity {
         firestore = FirebaseFirestore.getInstance();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         InProfile = findViewById(R.id.In_Profile);
+
+        tv_username = findViewById(R.id.tv_username);
 
         if(firebaseUser != null){
             getInfo();
@@ -57,13 +61,13 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void getInfo(){
 
-        firestore.collection("Users").document(firebaseUser.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        firestore.collection("users").document(firebaseUser.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
 
-                String username = Objects.requireNonNull(documentSnapshot.get("Username")).toString();
-                //txusrname.setText(username);
-//                yaha binding wali line ay gi
+                String username = Objects.requireNonNull(documentSnapshot.get("userName")).toString();
+                tv_username.setText(username);
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

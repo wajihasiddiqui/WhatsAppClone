@@ -46,16 +46,16 @@ public class calllistadapter extends RecyclerView.Adapter<calllistadapter.Holder
         holder.txdate.setText(calllists.getDate());
 
         if(calllists.getCallType().equals("missed")){
-            holder.arrow.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_call_24));
-            holder.arrow.getDrawable().setTint(context.getResources().getColor(android.R.color.holo_green_light));
+            holder.arrow.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_call_missed_24));
+            holder.arrow.getDrawable().setTint(context.getResources().getColor(android.R.color.holo_red_dark));
         }
         else if(calllists.getCallType().equals("income")){
-            holder.arrow.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_call_24));
-            holder.arrow.getDrawable().setTint(context.getResources().getColor(android.R.color.holo_blue_dark));
+            holder.arrow.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_call_received_24));
+            holder.arrow.getDrawable().setTint(context.getResources().getColor(android.R.color.holo_green_dark));
         }
         else{
-            holder.arrow.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_call_24));
-            holder.arrow.getDrawable().setTint(context.getResources().getColor(android.R.color.holo_blue_dark));
+            holder.arrow.setImageDrawable(context.getDrawable(R.drawable.ic_baseline_call_made_24));
+            holder.arrow.getDrawable().setTint(context.getResources().getColor(android.R.color.holo_green_dark));
         }
 
         Glide.with(context).load(calllists.getUrlProfile()).into(holder.profile);

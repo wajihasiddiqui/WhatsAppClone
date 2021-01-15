@@ -37,8 +37,8 @@ import java.util.concurrent.TimeUnit;
 public class login extends AppCompatActivity {
 
     Button button;
-    EditText phone;
-    EditText resendCode,countryCode ;
+    EditText phoneNumber,countryCode  ;
+    EditText resendCode;
 
     private static String TAG = "login";
     private FirebaseAuth auth;
@@ -50,9 +50,7 @@ public class login extends AppCompatActivity {
 
     private FirebaseUser firebaseUser;
     private FirebaseFirestore firestore;
-    
 
-//  String[] countery = {"Pakistan","USA","China","other"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,22 +66,13 @@ public class login extends AppCompatActivity {
         }
 
         button = findViewById(R.id.btnNext);
-        phone = findViewById(R.id.phone);
+        phoneNumber = findViewById(R.id.phone);
         resendCode = findViewById(R.id.resendCode);
         countryCode = findViewById(R.id.codeCountry);
-
-
-//        Spinner spin = findViewById(R.id.spinnercountry);
-//        spin.setOnItemSelectedListener(this);
-//
-//        ArrayAdapter<String> aa = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,countery);
-//        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        spin.setAdapter(aa);
-
         auth = FirebaseAuth.getInstance();
 
-
         progressDialog = new ProgressDialog(this);
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,10 +80,13 @@ public class login extends AppCompatActivity {
                     progressDialog.setMessage("please wait");
                     progressDialog.show();
 
-                    String phonee = "+" + countryCode.getText().toString() + phone.getText().toString();
-                    startPhoneNumberVerification(phonee);
+                    String phone = "+"+countryCode.getText().toString()+phoneNumber.getText().toString();
+                    startPhoneNumberVerification(phone);
                 }
                 else {
+
+                    progressDialog.setMessage("Verifying .."+ phoneNumber);
+                    progressDialog.show();
                     verifyPhoneNumberWithCode(verificationid, resendCode.getText().toString());
                 }
             }
@@ -141,6 +133,8 @@ public class login extends AppCompatActivity {
                 callbacks);
     }
 
+
+
     private void verifyPhoneNumberWithCode(String verificationId, String code) {
 
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
@@ -154,11 +148,13 @@ public class login extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
 
+                            progressDialog.dismiss();
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = task.getResult().getUser();
                             startActivity(new Intent(login.this, SetUserInfoActivity.class));
-                            //if(user != null){
-//                                String userId = user.getUid();
+//
+//                            if(user != null){
+//                                String userId = firebaseUser.getUid();
 //                                users users = new users(userId,
 //                                        "",
 //                                        user.getPhoneNumber(),
@@ -169,22 +165,22 @@ public class login extends AppCompatActivity {
 //                                        "",
 //                                        "",
 //                                        "");
+//                                firestore.collection("Users").document("UserInfo").collection("userId")
+//                                        .add(users).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                                    @Override
+//                                    public void onSuccess(DocumentReference documentReference) {
 //
-//                                firestore.collection("users").document("userInfo").collection(userId).add(users)
-//                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                                            @Override
-//                                            public void onSuccess(DocumentReference documentReference) {
 //
-//                                                startActivity(new Intent(login.this, SetUserInfoActivity.class));
-//                                            }
-//                                        });
+//                                    }
+//                                });
 //                            }
-//                            else{
-//                                Toast.makeText(getApplicationContext(),"Something Errror",Toast.LENGTH_SHORT).show();
+//                            else {
+//
+//                                Toast.makeText(getApplicationContext(),"Something Error",Toast.LENGTH_SHORT).show();
 //                            }
+                        }
 
-
-                        } else {
+                            else {
                             progressDialog.dismiss();
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
 
@@ -196,18 +192,5 @@ public class login extends AppCompatActivity {
                     }
                 });
     }
-
-
-//
-//    @Override
-//    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//        Toast.makeText(getApplicationContext(),countery[position], Toast.LENGTH_LONG).show();
-//    }
-//
-//    @Override
-//    public void onNothingSelected(AdapterView<?> parent) {
-//
-//    }
-
 
 }

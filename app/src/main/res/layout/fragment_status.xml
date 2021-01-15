@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/profile"
                 android:layout_alignRight="@+id/profile"
-                android:src="@drawable/ic_baseline_call_24"
+                android:src="@drawable/ic_baseline_add_circle_24"
                 app:tint="@color/colorPrimaryDark">
 
             </ImageView>

@@ -144,7 +144,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="30dp"
             android:background="@color/colorPrimary"
-            android:text="Next"
+            android:text="NEXT"
             android:textColor="@android:color/white">
 
         </Button>

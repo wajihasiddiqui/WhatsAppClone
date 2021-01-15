@@ -18,8 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class
-CallFragment extends Fragment {
+public class CallFragment extends Fragment {
 
 
     public CallFragment() {
@@ -38,12 +37,6 @@ CallFragment extends Fragment {
         recyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
 
         List<calllist> list = new ArrayList<>();
-//
-//        list.add(new calllist("001","wajiha","11/5/2020","https://tse3.mm.bing.net/th?id=OIP.Xa_FUFxWwz48najD3i5uCAHaFY&pid=Api&P=0&w=254&h=185","income"));
-//        list.add(new calllist("002","wajiha","11/5/2020","https://tse3.mm.bing.net/th?id=OIP.Xa_FUFxWwz48najD3i5uCAHaFY&pid=Api&P=0&w=254&h=185","missed"));
-//        list.add(new calllist("003","wajiha","11/5/2020","https://tse3.mm.bing.net/th?id=OIP.Xa_FUFxWwz48najD3i5uCAHaFY&pid=Api&P=0&w=254&h=185","income"));
-//
-//
 //        recyclerview.setAdapter(new calllistadapter(list,getContext()));
 
         return view;
