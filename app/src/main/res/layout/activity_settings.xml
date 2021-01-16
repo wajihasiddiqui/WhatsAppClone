@@ -31,16 +31,16 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
             <LinearLayout
-                android:id="@+id/In_Profile"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="15sp"
                 android:orientation="horizontal">
                 
                 <com.mikhaellopez.circularimageview.CircularImageView
+                    android:id="@+id/In_Profile"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
-                    android:src="@drawable/common_google_signin_btn_icon_dark"
+                    android:src="@drawable/profile"
                     >
 
                 </com.mikhaellopez.circularimageview.CircularImageView>

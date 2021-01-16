@@ -7,9 +7,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.whatsappclone.R;
 import com.example.whatsappclone.profile.ProfileActivity;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -25,7 +27,7 @@ public class SettingsActivity extends AppCompatActivity {
 
 
     TextView tv_username;
-    private LinearLayout InProfile;
+    ImageView InProfile;
     private FirebaseUser firebaseUser;
     private FirebaseFirestore firestore;
 
@@ -65,8 +67,11 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
 
-                String username = Objects.requireNonNull(documentSnapshot.get("userName")).toString();
+                String username = documentSnapshot.getString("userName");
+                String imageProfile = documentSnapshot.getString("imageProfile");
+
                 tv_username.setText(username);
+                Glide.with(SettingsActivity.this).load(imageProfile).into(InProfile);
 
             }
         }).addOnFailureListener(new OnFailureListener() {
