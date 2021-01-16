@@ -1,5 +1,6 @@
 package com.example.whatsappclone.profile;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -10,6 +11,8 @@ import androidx.core.content.FileProvider;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -24,22 +27,41 @@ import android.provider.ContactsContract;
 import android.provider.ContactsContract.RawContacts;
 import android.provider.MediaStore;
 import android.provider.SyncStateContract;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.webkit.MimeTypeMap;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.bumptech.glide.Glide;
 import com.example.whatsappclone.BuildConfig;
 import com.example.whatsappclone.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -49,12 +71,17 @@ public class ProfileActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     FloatingActionButton fabcamera;
-    private BottomSheetDialog bottomsheetdialog;
-
+    private BottomSheetDialog bottomsheetdialog, bottomsheeteditname;
     private int Image_gallry_request = 111;
     private Uri imageUri;
-
     ImageView img_profile;
+    TextView tv_phone, tv_username;
+    private FirebaseUser firebaseUser;
+    private FirebaseFirestore firestore;
+    private ProgressDialog progressDialog;
+
+    LinearLayout in_edit_name;
+
 
 
     @Override
@@ -66,13 +93,30 @@ public class ProfileActivity extends AppCompatActivity {
         fabcamera = findViewById(R.id.fab_camera);
 
         img_profile = findViewById(R.id.img_profile);
+        in_edit_name = findViewById(R.id.in_edit_name);
+
+
+        tv_username = findViewById(R.id.tv_username);
+        tv_phone = findViewById(R.id.tv_phone);
 
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
 
+        firestore = FirebaseFirestore.getInstance();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        progressDialog = new ProgressDialog(this);
+
+        if(firebaseUser != null){
+            getInfo();
+        }
+
         initActionClick();
     }
+
+
+
 
     private void initActionClick() {
         fabcamera.setOnClickListener(new View.OnClickListener() {
@@ -80,6 +124,15 @@ public class ProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 showBottomSheetpickPhoto();
 
+            }
+        });
+
+        in_edit_name.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                showBottomSheetEditName();
             }
         });
 
@@ -103,7 +156,9 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                checkCameraPermission();
+                Toast.makeText(ProfileActivity.this, "camera", Toast.LENGTH_SHORT).show();
+                bottomsheetdialog.dismiss();
+                //checkCameraPermission();
             }
         });
 
@@ -126,40 +181,114 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    private void checkCameraPermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.CAMERA},
-                    221);
+    private void showBottomSheetEditName(){
+
+        @SuppressLint("InflateParams") View view = getLayoutInflater().inflate(R.layout.bottom_sheet_edit_name, null);
+
+        ((View) view.findViewById(R.id.btn_cancel)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomsheeteditname.dismiss();
+            }
+        });
+
+        final EditText edusername = (EditText) view.findViewById(R.id.ed_username);
+
+        ((View) view.findViewById(R.id.btn_save)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(TextUtils.isEmpty(edusername.getText().toString())){
+                    Toast.makeText(ProfileActivity.this, "Name Can't be Empty", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    updatename(edusername.getText().toString());
+                    bottomsheeteditname.dismiss();
+                }
 
 
-        } else if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    222);
+            }
+        });
 
+        bottomsheeteditname = new BottomSheetDialog(this);
 
-        } else {
-            opencamera();
+        bottomsheeteditname.setContentView(view);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Objects.requireNonNull(bottomsheeteditname.getWindow()).addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
+        bottomsheeteditname.setOnDismissListener(new DialogInterface.OnDismissListener() {
+
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                bottomsheeteditname = null;
+            }
+        });
+        bottomsheeteditname.show();
     }
 
-    private void opencamera() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        String timeStamp = new SimpleDateFormat("yyyyMMDD_HHmmss", Locale.getDefault()).format(new Date());
-        String imageFileName = "IMG_ " + timeStamp + ".jpg";
 
-        try {
-            File file = File.createTempFile("IMG_" + timeStamp, "jpg", getExternalFilesDir(Environment.DIRECTORY_PICTURES));
-            imageUri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".provider", file);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-            intent.putExtra("listPhotoName", imageFileName);
-            startActivityForResult(intent, 440);
 
-        }
-        catch (IOException e) {
+//
+//    private void checkCameraPermission() {
+//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+//            ActivityCompat.requestPermissions(this,
+//                    new String[]{Manifest.permission.CAMERA},
+//                    221);
+//
+//
+//        } else if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+//            ActivityCompat.requestPermissions(this,
+//                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+//                    222);
+//
+//
+//        } else {
+//            opencamera();
+//        }
+//    }
+//
+//    private void opencamera() {
+//        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        String timeStamp = new SimpleDateFormat("yyyyMMDD_HHmmss", Locale.getDefault()).format(new Date());
+//        String imageFileName = "IMG_ " + timeStamp + ".jpg";
+//
+//        try {
+//            File file = File.createTempFile("IMG_" + timeStamp, "jpg", getExternalFilesDir(Environment.DIRECTORY_PICTURES));
+//            imageUri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".provider", file);
+//            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+//            intent.putExtra("listPhotoName", imageFileName);
+//            startActivityForResult(intent, 440);
+//
+//        }
+//        catch (IOException e) {
+//
+//        }
+//    }
+//
 
-        }
+    private void getInfo(){
+
+        firestore.collection("users").document(firebaseUser.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                String username = documentSnapshot.getString("userName");
+                String userphone = documentSnapshot.getString("userPhone");
+                String imageProfile = documentSnapshot.getString("imageProfile");
+
+                tv_username.setText(username);
+                tv_phone.setText(userphone);
+                Glide.with(ProfileActivity.this).load(imageProfile).into(img_profile);
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("Get Data", "onFailure: "+e.getMessage());
+
+            }
+        });
     }
 
     private void opengallery() {
@@ -178,12 +307,84 @@ public class ProfileActivity extends AppCompatActivity {
         if (requestCode == Image_gallry_request && resultCode == RESULT_OK && data != null && data.getData() != null) {
 
             imageUri = data.getData();
+
+            uploadImageToFirebase();
+
+//            try{
+//                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+//                img_profile.setImageBitmap(bitmap);
+//            }
+//            catch(Exception e){
+//                e.printStackTrace();
+//            }
         }
 
-        if (requestCode == 440 && resultCode == RESULT_OK) {
+    }
 
 
+    private String getFileExtension(Uri uri) {
+        ContentResolver contentRes = getContentResolver();
+        MimeTypeMap mimeType = MimeTypeMap.getSingleton();
+        return mimeType.getExtensionFromMimeType(contentRes.getType(uri));
+    }
+
+    private void uploadImageToFirebase() {
+
+        if(imageUri != null){
+
+            progressDialog.setMessage("Uploading.. ");
+            progressDialog.show();
+
+            StorageReference reverseref = FirebaseStorage.getInstance().getReference().child("ImagesProfile/" + System.currentTimeMillis()+ "." +getFileExtension(imageUri));
+            reverseref.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                    Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                    while (!uriTask.isSuccessful());
+                    Uri downloadUrl = uriTask.getResult();
+
+                    final String downlod_url = String.valueOf(downloadUrl);
+                    //Toast.makeText(ProfileActivity.this, "upload Successfully", Toast.LENGTH_SHORT).show();
+
+                    HashMap<String, Object> hashMap = new HashMap<>();
+                    hashMap.put("imageProfile", downlod_url);
+                    progressDialog.dismiss();
+
+                    firestore.collection("users").document(firebaseUser.getUid()).update(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+
+                            Toast.makeText(ProfileActivity.this, "Upload Successfully", Toast.LENGTH_SHORT).show();
+
+                            getInfo();
+                        }
+                    });
+
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+
+                    Toast.makeText(ProfileActivity.this, "Upload Failed", Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                }
+            });
         }
+
+    }
+
+    private void updatename(String newName){
+        firestore.collection("users").document(firebaseUser.getUid()).update("userName",newName).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+                Toast.makeText(ProfileActivity.this, "Update Successfully", Toast.LENGTH_SHORT).show();
+                getInfo();
+            }
+        });
+
     }
 
 

@@ -31,6 +31,7 @@
             android:orientation="vertical">
 
             <com.mikhaellopez.circularimageview.CircularImageView
+
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:src="@drawable/ic_baseline_photo_camera_24"
@@ -56,6 +57,7 @@
             android:orientation="vertical">
 
             <com.mikhaellopez.circularimageview.CircularImageView
+
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:src="@drawable/ic_baseline_photo_camera_24"
