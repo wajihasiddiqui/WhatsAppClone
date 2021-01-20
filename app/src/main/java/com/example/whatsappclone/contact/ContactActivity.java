@@ -1,6 +1,7 @@
 package com.example.whatsappclone.contact;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import com.example.whatsappclone.R;
 import com.example.whatsappclone.adapter.contactsadapter;
 import com.example.whatsappclone.model.users;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -21,8 +23,9 @@ import java.util.List;
 public class ContactActivity extends AppCompatActivity {
 
 
-
     RecyclerView recyclerView;
+
+
     private static final String TAG = "ContactActivity";
     private List<users> list = new ArrayList<>();
     private contactsadapter adapter;
@@ -35,8 +38,14 @@ public class ContactActivity extends AppCompatActivity {
         setContentView(R.layout.activity_contact);
 
         recyclerView = findViewById(R.id.recyclerview);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        getcontactlist();
+        firebaseUser =  FirebaseAuth.getInstance().getCurrentUser();
+        firestore =  FirebaseFirestore.getInstance();
+
+        if (firebaseUser != null) {
+            getcontactlist();
+        }
     }
 
     private void getcontactlist() {
@@ -46,23 +55,23 @@ public class ContactActivity extends AppCompatActivity {
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
                 for(QueryDocumentSnapshot snapshot: queryDocumentSnapshots) {
-                    Log.d(TAG, "onSuccess: data "+ snapshot.toString());
-                    String Uid = snapshot.getString("userId");
-                    String username = snapshot.getString("username");
+                   // Log.d(TAG, "onSuccess: data "+ snapshot.toString());
+                    String UserId = snapshot.getString("userId");
+                    String username = snapshot.getString("userName");
                     String description = snapshot.getString("bio");
-                    String urlprofile = snapshot.getString("urlprofile");
+                    String imageProfile = snapshot.getString("imageProfile");
 
 
                     users user = new users();
 
-                    user.setUserId(Uid);
+                    user.setUserId(UserId);
                     user.setUserName(username);
                     user.setBio(description);
-                    user.setImageProfile(urlprofile);
+                    user.setImageProfile(imageProfile);
 
-                    if(Uid != null && !Uid.equals(user.getUserId())) {
+                  //  if(UserId != null && !UserId.equals(firebaseUser.getUid())) {
                         list.add(user);
-                    }
+                  //  }
 
                 }
 

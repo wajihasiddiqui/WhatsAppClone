@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -45,7 +46,7 @@ import java.util.List;
 public class ChatsActivity extends AppCompatActivity {
 
     private TextView tv_username;
-    private CircularImageView circularImageView;
+    private ImageView ImageView;
     private ImageButton btnback;
     private EditText edMessage;
     private FloatingActionButton btnSend;
@@ -65,22 +66,22 @@ public class ChatsActivity extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
         tv_username = findViewById(R.id.tv_username);
-        circularImageView = findViewById(R.id.imageProfile);
+        ImageView = findViewById(R.id.imageProfile);
         btnback = findViewById(R.id.btnBack);
         btnSend = findViewById(R.id.btnSend);
         edMessage = findViewById(R.id.edMessage);
         recyclerView = findViewById(R.id.recyclerview);
 
-        Intent intent = new Intent();
+        Intent intent =  getIntent();
         String userName = intent.getStringExtra("userName");
-        String receverID = intent.getStringExtra("UId");
-        String userProfile = intent.getStringExtra("userProfile");
+        String receverID = intent.getStringExtra("userId");
+        String userProfile = intent.getStringExtra("imageProfile");
 
 
 
         if(receverID != null){
             tv_username.setText(userName);
-            Glide.with(this).load(userProfile).into(circularImageView);
+            Glide.with(this).load(userProfile).into(ImageView);
         }
 
         btnback.setOnClickListener(new View.OnClickListener() {
@@ -101,10 +102,10 @@ public class ChatsActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
                 if(TextUtils.isEmpty(edMessage.getText().toString())) {
-                    btnSend.setImageDrawable(getDrawable(R.drawable.ic_baseline_call_24));
+                    btnSend.setImageDrawable(getDrawable(R.drawable.ic_baseline_keyboard_voice_24));
                 }
                 else{
-                    btnSend.setImageDrawable(getDrawable(R.drawable.ic_baseline_call_24));
+                    btnSend.setImageDrawable(getDrawable(R.drawable.ic_baseline_send_24));
                 }
 
             }
@@ -168,10 +169,10 @@ public class ChatsActivity extends AppCompatActivity {
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(TextUtils.isEmpty(edMessage.getText().toString())){
+                if(!TextUtils.isEmpty(edMessage.getText().toString())){
                     sendTextMessage(edMessage.getText().toString());
 
-
+                    edMessage.setText("");
                 }
             }
         });
@@ -191,7 +192,7 @@ public class ChatsActivity extends AppCompatActivity {
         chat chats = new chat(
                 today+","+currentTime,
                 text,
-                "",
+                "TEXT",
                 firebaseUser.getUid(),
                 receverID
         );
@@ -209,10 +210,10 @@ public class ChatsActivity extends AppCompatActivity {
 
         //add to chat list
 
-        DatabaseReference chatref1 = FirebaseDatabase.getInstance().getReference("chatlist").child(firebaseUser.getUid()).child(receverID);
+        DatabaseReference chatref1 = FirebaseDatabase.getInstance().getReference("ChatList").child(firebaseUser.getUid()).child(receverID);
         chatref1.child("chatid").setValue(receverID);
 
-        DatabaseReference chatref2 = FirebaseDatabase.getInstance().getReference("chatlist").child(receverID).child(firebaseUser.getUid());
+        DatabaseReference chatref2 = FirebaseDatabase.getInstance().getReference("ChatList").child(receverID).child(firebaseUser.getUid());
         chatref2.child("chatid").setValue(firebaseUser.getUid());
     }
 }

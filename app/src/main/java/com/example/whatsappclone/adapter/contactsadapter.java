@@ -2,6 +2,7 @@ package com.example.whatsappclone.adapter;
 
 import android.content.Context;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.whatsappclone.R;
+import com.example.whatsappclone.chats.ChatsActivity;
 import com.example.whatsappclone.model.users;
 import java.util.List;
 
@@ -36,11 +38,21 @@ public class contactsadapter extends RecyclerView.Adapter<contactsadapter.Viewho
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
 
-        users user = list.get(position);
+        final users user = list.get(position);
 
         holder.username.setText(user.getUserName());
         holder.description.setText(user.getBio());
         Glide.with(context).load(user.getImageProfile()).into(holder.imgprofile);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.startActivity(new Intent(context, ChatsActivity.class)
+                        .putExtra("userId", user.getUserId())
+                        .putExtra("userName", user.getUserName())
+                        .putExtra("imageProfile", user.getImageProfile()));
+            }
+        });
 
     }
 

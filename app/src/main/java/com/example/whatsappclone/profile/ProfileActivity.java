@@ -2,6 +2,7 @@ package com.example.whatsappclone.profile;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
@@ -34,6 +35,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -47,6 +49,7 @@ import com.example.whatsappclone.BuildConfig;
 import com.example.whatsappclone.R;
 import com.example.whatsappclone.common.common;
 import com.example.whatsappclone.display.ViewImageActivity;
+import com.example.whatsappclone.startup.SplashScreen;
 import com.google.android.gms.common.internal.service.Common;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -85,6 +88,7 @@ public class ProfileActivity extends AppCompatActivity {
     private FirebaseUser firebaseUser;
     private FirebaseFirestore firestore;
     private ProgressDialog progressDialog;
+    Button signout;
 
     LinearLayout in_edit_name;
 
@@ -101,6 +105,7 @@ public class ProfileActivity extends AppCompatActivity {
         img_profile = findViewById(R.id.img_profile);
         in_edit_name = findViewById(R.id.in_edit_name);
 
+        signout = findViewById(R.id.btn_logout);
 
         tv_username = findViewById(R.id.tv_username);
         tv_phone = findViewById(R.id.tv_phone);
@@ -153,6 +158,14 @@ public class ProfileActivity extends AppCompatActivity {
                 Intent intent = new Intent(ProfileActivity.this, ViewImageActivity.class);
                 startActivity(intent,activityOptionsCompat.toBundle());
 
+            }
+        });
+
+
+        signout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    showDialogSignpout();
             }
         });
 
@@ -407,5 +420,29 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
+
+    private void showDialogSignpout(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
+        builder.setMessage("Do you want to sign out");
+        builder.setPositiveButton("Sign put", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.cancel();
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(ProfileActivity.this, SplashScreen.class));
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+    }
 
 }

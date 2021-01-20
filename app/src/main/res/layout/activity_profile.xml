@@ -282,4 +282,19 @@
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/btn_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SIGN OUT"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="15dp"
+        android:background="@android:color/transparent"
+        android:textStyle="bold"
+        android:textSize="15dp"
+        android:textColor="@color/colorPrimary"
+        >
+
+    </Button>
+
 </LinearLayout>

@@ -38,7 +38,7 @@
                 android:id="@+id/imageProfile"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/ic_baseline_photo_camera_24">
+                android:src="@drawable/personicon">
 
             </com.mikhaellopez.circularimageview.CircularImageView>
 
@@ -112,7 +112,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/btnEmoji"
+                    android:id="@+id/btn_emoji"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_gravity="center_vertical"
@@ -135,7 +135,7 @@
                 </EditText>
 
                 <ImageView
-                    android:id="@+id/btnFile"
+                    android:id="@+id/btn_file"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginEnd="15dp"
@@ -147,7 +147,7 @@
                 </ImageView>
 
                 <ImageView
-                    android:id="@+id/btnCamera"
+                    android:id="@+id/btn_camera"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_gravity="center_vertical"

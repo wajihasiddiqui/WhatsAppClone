@@ -10,8 +10,7 @@
         android:id="@+id/imgprofile"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:tint="@color/colorPrimaryDark"
-        android:src="@drawable/ic_baseline_photo_camera_24"
+        android:src="@drawable/personicon"
         >
 
     </com.mikhaellopez.circularimageview.CircularImageView>

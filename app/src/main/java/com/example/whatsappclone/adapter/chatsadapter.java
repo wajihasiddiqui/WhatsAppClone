@@ -21,6 +21,7 @@ import java.util.List;
 public class chatsadapter extends RecyclerView.Adapter<chatsadapter.viewholder> {
 
     private List<chat> list = new ArrayList<>();
+
     private Context context;
     public static final int msg_type_left = 0;
     public static final int msg_type_right = 1;
