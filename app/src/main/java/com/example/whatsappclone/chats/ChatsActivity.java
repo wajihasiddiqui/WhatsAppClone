@@ -136,7 +136,9 @@ public class ChatsActivity extends AppCompatActivity {
                     for(DataSnapshot snapshots : snapshot.getChildren()) {
                         chat chats = snapshots.getValue(chat.class);
 
-                        if(chats.getSender().equals(firebaseUser.getUid()) && chats.getReceiver().equals(receverID)) {
+                        if(chats != null && chats.getSender().equals(firebaseUser.getUid()) && chats.getReceiver().equals(receverID)
+                        || chats.getReceiver().equals(firebaseUser.getUid()) && chats.getSender().equals(receverID)
+                        ) {
                             list.add(chats);
                         }
                     }
@@ -177,6 +179,12 @@ public class ChatsActivity extends AppCompatActivity {
             }
         });
 
+        btnback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
     }
 
