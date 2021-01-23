@@ -25,6 +25,7 @@ import com.bumptech.glide.Glide;
 import com.example.whatsappclone.R;
 import com.example.whatsappclone.adapter.chatsadapter;
 import com.example.whatsappclone.model.chat.chat;
+import com.example.whatsappclone.profile.User_ProfileActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -52,10 +53,13 @@ public class ChatsActivity extends AppCompatActivity {
     private FloatingActionButton btnSend;
     private FirebaseUser firebaseUser;
     private DatabaseReference databaseReference;
-    private String receverID;
+    private String receverID, userName;
     private com.example.whatsappclone.adapter.chatsadapter chatsadapter;
     private List<chat>list;
     RecyclerView recyclerView;
+    private String TAG;
+
+    private String userProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,15 +77,26 @@ public class ChatsActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerview);
 
         Intent intent =  getIntent();
-        String userName = intent.getStringExtra("userName");
-        String receverID = intent.getStringExtra("userId");
-        String userProfile = intent.getStringExtra("imageProfile");
+        userName = intent.getStringExtra("userName");
+        receverID = intent.getStringExtra("userId");
+        userProfile = intent.getStringExtra("imageProfile");
 
 
 
         if(receverID != null){
+
+            Log.d(TAG,"onCreate receverId" + receverID);
             tv_username.setText(userName);
-            Glide.with(this).load(userProfile).into(ImageView);
+            if(userProfile != null){
+                if(userProfile.equals("")){
+
+                    ImageView.setImageResource(R.drawable.personicon);  // Set default image when user is null
+                }
+                else{
+
+                    Glide.with(this).load(userProfile).into(ImageView);
+                }
+            }
         }
 
         btnback.setOnClickListener(new View.OnClickListener() {
@@ -183,6 +198,17 @@ public class ChatsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        ImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ChatsActivity.this, User_ProfileActivity.class)
+                .putExtra("userId", receverID)
+                                .putExtra("imageProfile",userProfile)
+                        .putExtra("userName",userName)
+                );
             }
         });
 
