@@ -3,6 +3,7 @@ package com.example.whatsappclone.chats;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,6 +25,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.whatsappclone.R;
 import com.example.whatsappclone.adapter.chatsadapter;
+import com.example.whatsappclone.interfafaces.OnReadChatCallback;
+import com.example.whatsappclone.managers.ChatService;
 import com.example.whatsappclone.model.chat.chat;
 import com.example.whatsappclone.profile.User_ProfileActivity;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -47,17 +50,19 @@ import java.util.List;
 public class ChatsActivity extends AppCompatActivity {
 
     private TextView tv_username;
-    private ImageView ImageView;
+    private ImageView ImageView, btn_file;
     private ImageButton btnback;
     private EditText edMessage;
     private FloatingActionButton btnSend;
-    private FirebaseUser firebaseUser;
-    private DatabaseReference databaseReference;
     private String receverID, userName;
     private com.example.whatsappclone.adapter.chatsadapter chatsadapter;
-    private List<chat>list;
+    private List<chat>list = new ArrayList<>();
     RecyclerView recyclerView;
     private String TAG;
+    private CardView layout_action;
+    private ChatService chatService;
+
+    private boolean initActionShown = false;
 
     private String userProfile;
 
@@ -66,9 +71,6 @@ public class ChatsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chats);
 
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        databaseReference = FirebaseDatabase.getInstance().getReference();
-
         tv_username = findViewById(R.id.tv_username);
         ImageView = findViewById(R.id.imageProfile);
         btnback = findViewById(R.id.btnBack);
@@ -76,11 +78,25 @@ public class ChatsActivity extends AppCompatActivity {
         edMessage = findViewById(R.id.edMessage);
         recyclerView = findViewById(R.id.recyclerview);
 
+        btn_file = findViewById(R.id.btn_file);
+        layout_action = findViewById(R.id.layout_action);
+
+        initialize();
+        initBtnclick();
+        readData();
+    }
+
+    private void initialize(){
+
+//        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+//        databaseReference = FirebaseDatabase.getInstance().getReference();
+
         Intent intent =  getIntent();
         userName = intent.getStringExtra("userName");
         receverID = intent.getStringExtra("userId");
         userProfile = intent.getStringExtra("imageProfile");
 
+        chatService = new ChatService(this,receverID);
 
 
         if(receverID != null){
@@ -131,55 +147,30 @@ public class ChatsActivity extends AppCompatActivity {
             }
         });
 
-        initBtnclick();
-
         list = new ArrayList<>();
         LinearLayoutManager layoutmanager = new LinearLayoutManager(this, RecyclerView.VERTICAL,true);
         layoutmanager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutmanager);
 
-        readData();
+        chatsadapter = new chatsadapter(list, this);
+        recyclerView.setAdapter(chatsadapter);
     }
 
     private void readData() {
-        try{
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-            reference.child("chat").addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    list.clear();
-                    for(DataSnapshot snapshots : snapshot.getChildren()) {
-                        chat chats = snapshots.getValue(chat.class);
+        chatService.readChatData(new OnReadChatCallback() {
+            @Override
+            public void onReadSuccess(List<chat> list) {
 
-                        if(chats != null && chats.getSender().equals(firebaseUser.getUid()) && chats.getReceiver().equals(receverID)
-                        || chats.getReceiver().equals(firebaseUser.getUid()) && chats.getSender().equals(receverID)
-                        ) {
-                            list.add(chats);
-                        }
-                    }
-                    if(chatsadapter != null){
-                        chatsadapter.notifyDataSetChanged();
-                    }
-                    else {
-                        chatsadapter = new chatsadapter(list,ChatsActivity.this);
-                        recyclerView.setAdapter(chatsadapter);
-                    }
+                chatsadapter.setList(list);
 
-                }
+            }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
+            @Override
+            public void onReadFailed() {
+                Log.e(TAG, "onReadFailed: ");
 
-                }
-            });
-
-        }
-        catch(Exception e){
-
-            e.printStackTrace();
-        }
-
-
+            }
+        });
     }
 
     private void initBtnclick() {
@@ -187,7 +178,7 @@ public class ChatsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(!TextUtils.isEmpty(edMessage.getText().toString())){
-                    sendTextMessage(edMessage.getText().toString());
+                    chatService.sendTextMessage(edMessage.getText().toString());
 
                     edMessage.setText("");
                 }
@@ -212,42 +203,21 @@ public class ChatsActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    private void sendTextMessage(String text) {
-        Date date = Calendar.getInstance().getTime();
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        String today = simpleDateFormat.format(date);
-
-        Calendar currentDateTime = Calendar.getInstance();
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("hh:mm a");
-        String currentTime = df.format(currentDateTime.getTime());
-
-        chat chats = new chat(
-                today+","+currentTime,
-                text,
-                "TEXT",
-                firebaseUser.getUid(),
-                receverID
-        );
-        databaseReference.child("chat").push().setValue(chats).addOnSuccessListener(new OnSuccessListener<Void>() {
+        btn_file.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onSuccess(Void aVoid) {
-                Log.d("Send", "on Success");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("Send", "onFailure"+e.getMessage());
+            public void onClick(View v) {
+                if(initActionShown){
+                    layout_action.setVisibility(View.GONE);
+                    initActionShown = false;
+                }
+                else{
+                    layout_action.setVisibility(View.VISIBLE);
+                    initActionShown = true;
+                }
             }
         });
 
-        //add to chat list
-
-        DatabaseReference chatref1 = FirebaseDatabase.getInstance().getReference("ChatList").child(firebaseUser.getUid()).child(receverID);
-        chatref1.child("chatid").setValue(receverID);
-
-        DatabaseReference chatref2 = FirebaseDatabase.getInstance().getReference("ChatList").child(receverID).child(firebaseUser.getUid());
-        chatref2.child("chatid").setValue(firebaseUser.getUid());
     }
+
+
 }

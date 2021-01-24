@@ -17,10 +17,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".profile.User_ProfileActivity"></activity>
-        <activity
-            android:name=".profile.UserProfileActivity"
-            android:label="@string/title_activity_user_profile"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".display.ViewImageActivity" />
         <activity android:name=".auth.SetUserInfoActivity" />
         <activity android:name=".contact.ContactActivity" />

@@ -58,6 +58,7 @@ public class User_ProfileActivity extends AppCompatActivity {
             }
         }
 
+        initToolbar();
 
     }
 

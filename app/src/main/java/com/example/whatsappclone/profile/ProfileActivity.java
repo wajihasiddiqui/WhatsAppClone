@@ -126,9 +126,6 @@ public class ProfileActivity extends AppCompatActivity {
         initActionClick();
     }
 
-
-
-
     private void initActionClick() {
         fabcamera.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -236,6 +233,8 @@ public class ProfileActivity extends AppCompatActivity {
                 }
                 else{
                     updatename(edusername.getText().toString());
+
+                    checkCameraPermission();
                     bottomsheeteditname.dismiss();
                 }
 
@@ -260,45 +259,42 @@ public class ProfileActivity extends AppCompatActivity {
         bottomsheeteditname.show();
     }
 
+    private void checkCameraPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CAMERA},
+                    221);
 
 
-//
-//    private void checkCameraPermission() {
-//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-//            ActivityCompat.requestPermissions(this,
-//                    new String[]{Manifest.permission.CAMERA},
-//                    221);
-//
-//
-//        } else if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-//            ActivityCompat.requestPermissions(this,
-//                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-//                    222);
-//
-//
-//        } else {
-//            opencamera();
-//        }
-//    }
-//
-//    private void opencamera() {
-//        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        String timeStamp = new SimpleDateFormat("yyyyMMDD_HHmmss", Locale.getDefault()).format(new Date());
-//        String imageFileName = "IMG_ " + timeStamp + ".jpg";
-//
-//        try {
-//            File file = File.createTempFile("IMG_" + timeStamp, "jpg", getExternalFilesDir(Environment.DIRECTORY_PICTURES));
-//            imageUri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".provider", file);
-//            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-//            intent.putExtra("listPhotoName", imageFileName);
-//            startActivityForResult(intent, 440);
-//
-//        }
-//        catch (IOException e) {
-//
-//        }
-//    }
-//
+        } else if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    222);
+
+
+        } else {
+            opencamera();
+        }
+    }
+
+    private void opencamera() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        String timeStamp = new SimpleDateFormat("yyyyMMDD_HHmmss", Locale.getDefault()).format(new Date());
+        String imageFileName = "IMG_ " + timeStamp + ".jpg";
+
+        try {
+            File file = File.createTempFile("IMG_" + timeStamp, "jpg", getExternalFilesDir(Environment.DIRECTORY_PICTURES));
+            imageUri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".provider", file);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+            intent.putExtra("listPhotoName", imageFileName);
+            startActivityForResult(intent, 440);
+
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private void getInfo(){
 
@@ -337,7 +333,10 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == Image_gallry_request && resultCode == RESULT_OK && data != null && data.getData() != null) {
+        if (requestCode == Image_gallry_request
+                && resultCode == RESULT_OK
+                && data != null
+                && data.getData() != null) {
 
             imageUri = data.getData();
 
@@ -350,6 +349,14 @@ public class ProfileActivity extends AppCompatActivity {
 //            catch(Exception e){
 //                e.printStackTrace();
 //            }
+        }
+
+
+        if (requestCode == 440
+                && resultCode == RESULT_OK){
+
+            uploadImageToFirebase();
+
         }
 
     }
