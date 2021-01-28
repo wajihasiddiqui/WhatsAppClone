@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:text="Profile Info"
             android:textSize="17sp"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="#185051"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="25dp">
 
@@ -27,7 +27,6 @@
             android:layout_height="wrap_content"
             android:text="Please  provide your name and an optional phone"
             android:textSize="14sp"
-            android:textColor="@color/colorAccent"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="25dp">
 
