@@ -1,4 +1,4 @@
-package com.example.whatsappclone;
+package com.example.whatsappclone.fragments;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.example.whatsappclone.R;
 import com.example.whatsappclone.adapter.chatlistadapter;
 import com.example.whatsappclone.model.chatlist;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -70,7 +71,7 @@ public class ChatFragment extends Fragment {
         recyclerView.setAdapter(chatsadapter);
 
 
-        progressBar = (ProgressBar) view.findViewById(R.id.progress_circular);
+       // progressBar = (ProgressBar) view.findViewById(R.id.progress_circular);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         referance = FirebaseDatabase.getInstance().getReference();
@@ -81,15 +82,15 @@ public class ChatFragment extends Fragment {
         if(firebaseUser != null){
             getChatList();
         }
-
-        //RecyclerView recyclerview = view.findViewById(R.id.recyclerview);
-
-        //recyclerview.setAdapter(new chatlistadapter(list,getContext()));
+//
+//        RecyclerView recyclerview = view.findViewById(R.id.recyclerview);
+//
+//        recyclerview.setAdapter(new chatlistadapter(list,getContext()));
         return view;
     }
 
     private void getChatList() {
-        progressBar.setVisibility(View.VISIBLE);
+//        progressBar.setVisibility(View.VISIBLE);
         referance.child("ChatList").child(firebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

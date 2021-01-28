@@ -1,4 +1,4 @@
-package com.example.whatsappclone;
+package com.example.whatsappclone.fragments;
 
 import android.os.Bundle;
 
@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.whatsappclone.R;
 import com.example.whatsappclone.adapter.calllistadapter;
 import com.example.whatsappclone.adapter.chatlistadapter;
 import com.example.whatsappclone.model.calllist;

@@ -117,6 +117,9 @@ public class login extends AppCompatActivity {
                 resendingToken = token;
 
                 button.setText("Confirm");
+                resendCode.setVisibility(View.VISIBLE);
+                countryCode.setEnabled(false);
+                phoneNumber.setEnabled(false);
                 progressDialog.dismiss();
 
             }
@@ -152,32 +155,7 @@ public class login extends AppCompatActivity {
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = task.getResult().getUser();
                             startActivity(new Intent(login.this, SetUserInfoActivity.class));
-//
-//                            if(user != null){
-//                                String userId = firebaseUser.getUid();
-//                                users users = new users(userId,
-//                                        "",
-//                                        user.getPhoneNumber(),
-//                                        "",
-//                                        "",
-//                                        "",
-//                                        "",
-//                                        "",
-//                                        "",
-//                                        "");
-//                                firestore.collection("Users").document("UserInfo").collection("userId")
-//                                        .add(users).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                                    @Override
-//                                    public void onSuccess(DocumentReference documentReference) {
-//
-//
-//                                    }
-//                                });
-//                            }
-//                            else {
-//
-//                                Toast.makeText(getApplicationContext(),"Something Error",Toast.LENGTH_SHORT).show();
-//                            }
+
                         }
 
                             else {

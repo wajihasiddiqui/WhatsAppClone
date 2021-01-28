@@ -211,6 +211,42 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
+    private void checkCameraPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CAMERA},
+                    221);
+
+
+        } else if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    222);
+
+
+        } else {
+            opencamera();
+        }
+    }
+
+    private void opencamera() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        String timeStamp = new SimpleDateFormat("yyyyMMDD_HHmmss", Locale.getDefault()).format(new Date());
+        String imageFileName = "IMG_ " + timeStamp + ".jpg";
+
+        try {
+            File file = File.createTempFile("IMG_" + timeStamp, "jpg", getExternalFilesDir(Environment.DIRECTORY_PICTURES));
+            imageUri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".provider", file);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+            intent.putExtra("listPhotoName", imageFileName);
+            startActivityForResult(intent, 440);
+
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void showBottomSheetEditName(){
 
         @SuppressLint("InflateParams") View view = getLayoutInflater().inflate(R.layout.bottom_sheet_edit_name, null);
@@ -259,43 +295,6 @@ public class ProfileActivity extends AppCompatActivity {
         bottomsheeteditname.show();
     }
 
-    private void checkCameraPermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.CAMERA},
-                    221);
-
-
-        } else if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    222);
-
-
-        } else {
-            opencamera();
-        }
-    }
-
-    private void opencamera() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        String timeStamp = new SimpleDateFormat("yyyyMMDD_HHmmss", Locale.getDefault()).format(new Date());
-        String imageFileName = "IMG_ " + timeStamp + ".jpg";
-
-        try {
-            File file = File.createTempFile("IMG_" + timeStamp, "jpg", getExternalFilesDir(Environment.DIRECTORY_PICTURES));
-            imageUri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".provider", file);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-            intent.putExtra("listPhotoName", imageFileName);
-            startActivityForResult(intent, 440);
-
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
     private void getInfo(){
 
         firestore.collection("users").document(firebaseUser.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -342,21 +341,12 @@ public class ProfileActivity extends AppCompatActivity {
 
             uploadImageToFirebase();
 
-//            try{
-//                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
-//                img_profile.setImageBitmap(bitmap);
-//            }
-//            catch(Exception e){
-//                e.printStackTrace();
-//            }
         }
 
 
         if (requestCode == 440
                 && resultCode == RESULT_OK){
-
             uploadImageToFirebase();
-
         }
 
     }

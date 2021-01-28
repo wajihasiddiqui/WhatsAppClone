@@ -67,7 +67,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="660dp"
-        android:layout_behavior="@string/appbar_scrolling_view_behavior"
+
         android:layout_marginTop="250dp"
         android:background="@android:color/white"
         android:clipToPadding="false"
@@ -91,7 +91,6 @@
                 android:padding="15dp"
                 android:text="Mute notification"
                 android:textSize="14sp">
-
             </Switch>
 
             <TextView
@@ -156,7 +155,7 @@
                         android:layout_height="25dp"
                         android:layout_marginStart="20dp"
                         android:src="@drawable/ic_baseline_lock_24"
-                        app:tint="@color/colorPrimary">
+                        app:tint="#028979">
 
                     </ImageView>
 
@@ -227,7 +226,7 @@
                         android:layout_height="25dp"
                         android:layout_marginStart="20dp"
                         android:src="@drawable/ic_baseline_message_24"
-                        app:tint="@color/colorPrimary">
+                        app:tint="#028979">
 
                     </ImageView>
 
@@ -236,7 +235,7 @@
                         android:layout_height="25dp"
                         android:layout_marginStart="20dp"
                         android:src="@drawable/ic_baseline_call_24"
-                        app:tint="@color/colorPrimary">
+                        app:tint="#028979">
 
                     </ImageView>
 
@@ -245,7 +244,7 @@
                         android:layout_height="25dp"
                         android:layout_marginStart="20dp"
                         android:src="@drawable/ic_baseline_videocam_24"
-                        app:tint="@color/colorPrimary">
+                        app:tint="#028979">
 
                     </ImageView>
 
@@ -282,7 +281,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
                     android:text="Block"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/holo_red_dark"
                     android:textSize="15sp">
 
                 </TextView>
@@ -306,7 +305,7 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginStart="20dp"
-                    android:src="@drawable/ic_baseline_help_24"
+                    android:src="@drawable/ic_baseline_thumb_down_alt_24"
                     app:tint="@android:color/holo_red_dark">
 
                 </ImageView>
@@ -317,7 +316,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
                     android:text="Report contact"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/holo_red_dark"
                     android:textSize="15sp">
 
                 </TextView>

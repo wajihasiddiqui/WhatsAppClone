@@ -90,6 +90,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardElevation="5dp"
+        android:visibility="gone"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="70dp"
         android:layout_marginStart="10dp"
@@ -123,7 +124,7 @@
 
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:src="@drawable/ic_baseline_photo_camera_24"
+                        android:src="@drawable/document"
                         android:tint="@color/colorPrimaryDark"
                         >
 
@@ -132,7 +133,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Gallery">
+                        android:text="Document">
 
                     </TextView>
 
@@ -149,7 +150,7 @@
 
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:src="@drawable/ic_baseline_photo_camera_24"
+                        android:src="@drawable/camera"
                         android:tint="@color/colorPrimaryDark"
                         >
 
@@ -158,7 +159,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Gallery">
+                        android:text="Camera">
 
                     </TextView>
 
@@ -175,7 +176,7 @@
 
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:src="@drawable/ic_baseline_photo_camera_24"
+                        android:src="@drawable/gallry"
                         android:tint="@color/colorPrimaryDark"
                         >
 
@@ -211,7 +212,7 @@
 
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:src="@drawable/ic_baseline_photo_camera_24"
+                        android:src="@drawable/music"
                         android:tint="@color/colorPrimaryDark"
                         >
 
@@ -220,7 +221,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Gallery">
+                        android:text="Audio">
 
                     </TextView>
 
@@ -237,7 +238,7 @@
 
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:src="@drawable/ic_baseline_photo_camera_24"
+                        android:src="@drawable/location"
                         android:tint="@color/colorPrimaryDark"
                         >
 
@@ -246,7 +247,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Gallery">
+                        android:text="Map">
 
                     </TextView>
 
@@ -263,7 +264,7 @@
 
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:src="@drawable/ic_baseline_photo_camera_24"
+                        android:src="@drawable/contacts"
                         android:tint="@color/colorPrimaryDark"
                         >
 
@@ -272,7 +273,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Gallery">
+                        android:text="Contact">
 
                     </TextView>
 

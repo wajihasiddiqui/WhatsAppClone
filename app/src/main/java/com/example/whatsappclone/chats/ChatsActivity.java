@@ -8,9 +8,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -20,15 +25,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.whatsappclone.R;
 import com.example.whatsappclone.adapter.chatsadapter;
+import com.example.whatsappclone.dialog.DialogReviewSendImage;
 import com.example.whatsappclone.interfafaces.OnReadChatCallback;
 import com.example.whatsappclone.managers.ChatService;
 import com.example.whatsappclone.model.chat.chat;
 import com.example.whatsappclone.profile.User_ProfileActivity;
+import com.example.whatsappclone.service.FirebaseService;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -61,6 +69,10 @@ public class ChatsActivity extends AppCompatActivity {
     private String TAG;
     private CardView layout_action;
     private ChatService chatService;
+    private int Image_gallry_request = 111;
+    private Uri imageUri;
+
+    LinearLayout btn_gallry;
 
     private boolean initActionShown = false;
 
@@ -79,6 +91,8 @@ public class ChatsActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerview);
 
         btn_file = findViewById(R.id.btn_file);
+        btn_gallry = findViewById(R.id.btn_gallry);
+
         layout_action = findViewById(R.id.layout_action);
 
         initialize();
@@ -161,7 +175,8 @@ public class ChatsActivity extends AppCompatActivity {
             @Override
             public void onReadSuccess(List<chat> list) {
 
-                chatsadapter.setList(list);
+               Log.d(TAG, "onReadSuccess: List" + list.size());
+                recyclerView.setAdapter(new chatsadapter(list, ChatsActivity.this));
 
             }
 
@@ -217,7 +232,73 @@ public class ChatsActivity extends AppCompatActivity {
             }
         });
 
+        btn_gallry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                opengallery();
+            }
+        });
+
     }
+
+    private void opengallery() {
+
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent.createChooser(intent, "select image"), Image_gallry_request);
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == Image_gallry_request
+                && resultCode == RESULT_OK
+                && data != null
+                && data.getData() != null) {
+
+            imageUri = data.getData();
+
+            try{
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),imageUri);
+                reviewImage(bitmap);
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+            
+        }
+
+    }
+
+    private void  reviewImage(Bitmap bitmap){
+        new DialogReviewSendImage(ChatsActivity.this, bitmap).show(new DialogReviewSendImage.OnCallBack() {
+            @Override
+            public void onButtonSendClick() {
+                // to Upload image to Firebase storage to get url image....
+                if(imageUri!=null){
+                    final ProgressDialog progressDialog = new ProgressDialog(ChatsActivity.this);
+                    progressDialog.setMessage("Sending image...");
+                    new FirebaseService(ChatsActivity.this).uploadImageToFirebaseStorage(imageUri, new FirebaseService.onCallBack() {
+                        @Override
+                        public void onUploadSuccess(String imageUrl) {
+                            // to send chat image//
+                            chatService.sendImage(imageUrl);
+                            progressDialog.dismiss();
+                        }
+
+                        @Override
+                        public void onUploadFailure(Exception e) {
+                            e.printStackTrace();
+                        }
+                    });
+                }
+            }
+        });
+    }
+
 
 
 }

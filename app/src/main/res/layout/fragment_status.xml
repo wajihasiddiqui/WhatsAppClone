@@ -6,9 +6,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#DAD8D8"
-    tools:context=".StatusFragment">
+    tools:context=".fragments.StatusFragment">
 
     <LinearLayout
+        android:id="@+id/in_status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="17dp"
@@ -32,7 +33,7 @@
                 android:layout_alignBottom="@+id/profile"
                 android:layout_alignRight="@+id/profile"
                 android:src="@drawable/ic_baseline_add_circle_24"
-                app:tint="@color/colorPrimaryDark">
+                >
 
             </ImageView>
         </RelativeLayout>
@@ -72,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:textColor="#2E2E2E"
-                android:text="Tap to add Status ipdate"
+                android:text="Tap to add Status update"
                 />
 
 

@@ -85,7 +85,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="10dp"
-                    android:src="@drawable/common_google_signin_btn_icon_dark"
+                    android:src="@drawable/ic_baseline_vpn_key_24"
                     app:tint="@color/colorAccent">
 
                 </ImageView>
@@ -108,7 +108,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="14sp"
-                        android:text="Privacy, security, change number">
+                        android:text="Privacy,security,change number">
                     </TextView>
                 </LinearLayout>
 
@@ -123,7 +123,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="10dp"
-                    android:src="@drawable/common_google_signin_btn_icon_dark"
+                    android:src="@drawable/ic_baseline_message_24"
                     app:tint="@color/colorAccent">
 
                 </ImageView>
@@ -139,14 +139,14 @@
                         android:layout_height="wrap_content"
                         android:textSize="16dp"
                         android:textColor="@android:color/black"
-                        android:text="Acccount">
+                        android:text="Chats">
 
                     </TextView>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="14sp"
-                        android:text="Privacy, security, change number">
+                        android:text="Theme,wallpaper,chat history">
                     </TextView>
                 </LinearLayout>
 
@@ -161,7 +161,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="10dp"
-                    android:src="@drawable/common_google_signin_btn_icon_dark"
+                    android:src="@drawable/ic_baseline_notifications_24"
                     app:tint="@color/colorAccent">
 
                 </ImageView>
@@ -177,14 +177,14 @@
                         android:layout_height="wrap_content"
                         android:textSize="16dp"
                         android:textColor="@android:color/black"
-                        android:text="Acccount">
+                        android:text="Notifications">
 
                     </TextView>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="14sp"
-                        android:text="Privacy, security, change number">
+                        android:text="Messages,group &amp; call tone">
                     </TextView>
                 </LinearLayout>
 
@@ -199,7 +199,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="10dp"
-                    android:src="@drawable/common_google_signin_btn_icon_dark"
+                    android:src="@drawable/ic_baseline_data_usage_24"
                     app:tint="@color/colorAccent">
 
                 </ImageView>
@@ -215,14 +215,14 @@
                         android:layout_height="wrap_content"
                         android:textSize="16dp"
                         android:textColor="@android:color/black"
-                        android:text="Acccount">
+                        android:text="Storage and data">
 
                     </TextView>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="14sp"
-                        android:text="Privacy, security, change number">
+                        android:text="Network usage,auto-downlod">
                     </TextView>
                 </LinearLayout>
 
@@ -237,7 +237,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="10dp"
-                    android:src="@drawable/common_google_signin_btn_icon_dark"
+                    android:src="@drawable/ic_baseline_help_24"
                     app:tint="@color/colorAccent">
 
                 </ImageView>
@@ -253,14 +253,14 @@
                         android:layout_height="wrap_content"
                         android:textSize="16dp"
                         android:textColor="@android:color/black"
-                        android:text="Acccount">
+                        android:text="Help">
 
                     </TextView>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="14sp"
-                        android:text="Privacy, security, change number">
+                        android:text="Help center,contact us,privacy policy">
                     </TextView>
                 </LinearLayout>
 
@@ -283,7 +283,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="10dp"
-                    android:src="@drawable/common_google_signin_btn_icon_dark"
+                    android:src="@drawable/ic_baseline_supervisor_account_24"
                     app:tint="@color/colorAccent">
 
                 </ImageView>
@@ -294,7 +294,7 @@
                     android:textSize="16dp"
                     android:layout_marginStart="15dp"
                     android:textColor="@android:color/black"
-                    android:text="Invite a frind">
+                    android:text="Invite a friend">
 
                 </TextView>
 
@@ -313,7 +313,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:layout_gravity="center_horizontal"
-                android:text="F A C e B O O K">
+                android:text="F A C E B O O K">
             </TextView>
         </LinearLayout>
     </ScrollView>

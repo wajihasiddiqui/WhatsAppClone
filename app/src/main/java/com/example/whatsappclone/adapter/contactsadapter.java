@@ -41,7 +41,8 @@ public class contactsadapter extends RecyclerView.Adapter<contactsadapter.Viewho
         final users user = list.get(position);
 
         holder.username.setText(user.getUserName());
-        holder.description.setText(user.getBio());
+        holder.description.setText(user.getUserPhone());
+
         Glide.with(context).load(user.getImageProfile()).into(holder.imgprofile);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

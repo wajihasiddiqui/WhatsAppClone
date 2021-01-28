@@ -39,6 +39,10 @@ public class ChatService {
         this.receverID = receverID;
     }
 
+    public ChatService(Context context) {
+        this.context = context;
+    }
+
     public void readChatData(final OnReadChatCallback onCallBack){
 
         reference.child("chat").addValueEventListener(new ValueEventListener() {
@@ -47,12 +51,19 @@ public class ChatService {
                 List<chat> list = new ArrayList<>();
                 for(DataSnapshot snapshots : snapshot.getChildren()) {
                     chat chats = snapshots.getValue(chat.class);
+                    try{
 
-                    if(chats != null && chats.getSender().equals(firebaseUser.getUid()) && chats.getReceiver().equals(receverID)
-                            || chats.getReceiver().equals(firebaseUser.getUid()) && chats.getSender().equals(receverID)
-                    ) {
-                        list.add(chats);
+                        if(chats != null && chats.getSender().equals(firebaseUser.getUid()) && chats.getReceiver().equals(receverID)
+                                || chats.getReceiver().equals(firebaseUser.getUid()) && chats.getSender().equals(receverID)
+                        )
+                        {
+                            list.add(chats);
+                        }
                     }
+                    catch(Exception e){
+                        e.printStackTrace();
+                    }
+
                 }
                 onCallBack.onReadSuccess(list);
             }
@@ -66,17 +77,10 @@ public class ChatService {
 
     public void sendTextMessage(String text){
 
-        Date date = Calendar.getInstance().getTime();
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        String today = simpleDateFormat.format(date);
-
-        Calendar currentDateTime = Calendar.getInstance();
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("hh:mm a");
-        String currentTime = df.format(currentDateTime.getTime());
-
         chat chats = new chat(
-                today+","+currentTime,
+                getCurrentDate(),
                 text,
+                "",
                 "TEXT",
                 firebaseUser.getUid(),
                 receverID
@@ -100,6 +104,51 @@ public class ChatService {
 
         DatabaseReference chatref2 = FirebaseDatabase.getInstance().getReference("ChatList").child(receverID).child(firebaseUser.getUid());
         chatref2.child("chatid").setValue(firebaseUser.getUid());
+
+    }
+
+    public void sendImage(String imageUrl){
+
+        chat chats = new chat(
+                getCurrentDate(),
+                "",
+                imageUrl,
+                "IMAGE",
+                firebaseUser.getUid(),
+                receverID
+        );
+        databaseReference.child("chat").push().setValue(chats).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d("Send", "on Success");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("Send", "onFailure"+e.getMessage());
+            }
+        });
+
+        //add to chat list
+
+        DatabaseReference chatref1 = FirebaseDatabase.getInstance().getReference("ChatList").child(firebaseUser.getUid()).child(receverID);
+        chatref1.child("chatid").setValue(receverID);
+
+        DatabaseReference chatref2 = FirebaseDatabase.getInstance().getReference("ChatList").child(receverID).child(firebaseUser.getUid());
+        chatref2.child("chatid").setValue(firebaseUser.getUid());
+    }
+
+    public String getCurrentDate(){
+
+        Date date = Calendar.getInstance().getTime();
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        String today = simpleDateFormat.format(date);
+
+        Calendar currentDateTime = Calendar.getInstance();
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat("hh:mm a");
+        String currentTime = df.format(currentDateTime.getTime());
+
+        return today+","+currentTime;
 
     }
 }

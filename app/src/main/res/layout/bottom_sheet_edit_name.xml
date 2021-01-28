@@ -13,7 +13,7 @@
         android:text="Enter Your Name"
         android:textStyle="bold"
         android:textColor="@android:color/black"
-        android:textSize="15dp">
+        android:textSize="10dp">
     </TextView>
 
     <EditText
@@ -43,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="CANCLE"
-            android:textColor="@color/colorPrimary"
+            android:textColor="#1fc75a"
             android:background="@android:color/transparent"
             >
 
@@ -54,7 +54,7 @@
             android:id="@+id/btn_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimary"
+            android:textColor="#1fc75a"
             android:background="@android:color/transparent"
             android:text="SAVE"
             >

@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
         android:allowBackup="true"
@@ -16,7 +17,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".profile.User_ProfileActivity"></activity>
+        <activity android:name=".display.ReviewSendImageActivity"></activity>
+        <activity android:name=".status.DisplayStatusActivity" />
+        <activity android:name=".status.AddStatusPicActivity" />
+        <activity android:name=".profile.User_ProfileActivity" />
         <activity android:name=".display.ViewImageActivity" />
         <activity android:name=".auth.SetUserInfoActivity" />
         <activity android:name=".contact.ContactActivity" />
