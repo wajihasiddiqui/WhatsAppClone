@@ -33,8 +33,8 @@
         <com.mikhaellopez.circularimageview.CircularImageView
             android:id="@+id/img_profile"
             android:transitionName="image"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:scaleType="centerCrop"
             android:src="@drawable/profile"
             >

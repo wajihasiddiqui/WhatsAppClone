@@ -66,9 +66,9 @@ public class ChatFragment extends Fragment {
         list = new ArrayList<>();
         allUserId = new ArrayList<>();
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         chatsadapter = new chatlistadapter(list, getContext());
-        recyclerView.setAdapter(chatsadapter);
+//        recyclerView.setAdapter(chatsadapter);
 
 
        // progressBar = (ProgressBar) view.findViewById(R.id.progress_circular);

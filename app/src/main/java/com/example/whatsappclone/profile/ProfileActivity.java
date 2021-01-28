@@ -186,9 +186,9 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(ProfileActivity.this, "camera", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(ProfileActivity.this, "camera", Toast.LENGTH_SHORT).show();
                 bottomsheetdialog.dismiss();
-                //checkCameraPermission();
+                checkCameraPermission();
             }
         });
 
@@ -239,7 +239,7 @@ public class ProfileActivity extends AppCompatActivity {
             imageUri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".provider", file);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
             intent.putExtra("listPhotoName", imageFileName);
-            startActivityForResult(intent, 440);
+            startActivityForResult(intent, 441);
 
         }
         catch (IOException e) {
@@ -344,7 +344,7 @@ public class ProfileActivity extends AppCompatActivity {
         }
 
 
-        if (requestCode == 440
+        if (requestCode == 441
                 && resultCode == RESULT_OK){
             uploadImageToFirebase();
         }

@@ -38,6 +38,7 @@ public class AddStatusPicActivity extends AppCompatActivity {
         imageView = findViewById(R.id.image_view);
         btnback = findViewById(R.id.btn_back);
         description = findViewById(R.id.description);
+        btnSend = findViewById(R.id.btn_send);
 
 
         imageUri = MainActivity.imageUri;

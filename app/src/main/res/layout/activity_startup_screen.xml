@@ -15,9 +15,9 @@
 
 
         <ImageView
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_marginTop="150dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="100dp"
             android:layout_gravity="center_horizontal"
             android:src="@drawable/whatsapp">
 
@@ -43,7 +43,7 @@
             android:gravity="center"
             android:padding="15dp"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="200dp"
+            android:layout_marginTop="150dp"
             android:text="Tap Agree and contibnue to accept the WhatsApp Terms of service and Privacy Policy">
 
         </TextView>

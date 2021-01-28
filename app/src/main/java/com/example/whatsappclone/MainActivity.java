@@ -229,11 +229,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (index == 1) {
+                if (index == 0) {
+                    checkCameraPermission();
+                } else if (index == 1) {
                     startActivity(new Intent(MainActivity.this, ContactActivity.class));
                 } else if (index == 2) {
                     checkCameraPermission();
-                } else {
+                }
+                else {
                     Toast.makeText(MainActivity.this, "Call.. ", Toast.LENGTH_SHORT).show();
                 }
 
