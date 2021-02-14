@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.whatsappclone.R;
 import com.example.whatsappclone.chats.ChatsActivity;
+import com.example.whatsappclone.dialog.DialogViewUser;
 import com.example.whatsappclone.model.chatlist;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
@@ -64,6 +65,12 @@ public class chatlistadapter extends RecyclerView.Adapter<chatlistadapter.Holder
             }
         });
 
+        holder.profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new DialogViewUser(context,chatlists);
+            }
+        });
     }
 
     @Override
