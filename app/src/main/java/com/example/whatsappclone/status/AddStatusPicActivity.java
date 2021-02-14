@@ -59,7 +59,7 @@ public class AddStatusPicActivity extends AppCompatActivity {
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new FirebaseService(AddStatusPicActivity.this).uploadImageToFirebaseStorage(imageUri, new FirebaseService.onCallBack() {
+                new FirebaseService(AddStatusPicActivity.this).uploadImageToFirebaseStorage(imageUri, new FirebaseService.OnCallBack() {
                     @Override
                     public void onUploadSuccess(String imageUrl) {
                         status statusmodel = new status();

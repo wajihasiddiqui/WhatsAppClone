@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.whatsappclone"
-        minSdkVersion 23
+        minSdkVersion 28
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -45,6 +45,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:19.3.0'
     implementation 'com.android.support:multidex:1.0.3'
 
+    implementation 'com.devlomi.record-view:record-view:2.0.1'
 
     implementation 'com.jsibbold:zoomage:1.2.0'
 

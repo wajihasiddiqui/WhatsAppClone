@@ -38,7 +38,7 @@ import java.util.Objects;
 public class ChatFragment extends Fragment {
 
 
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
     private static final String TAG = "ChatFragment";
     ProgressBar progressBar;
 
@@ -66,9 +66,11 @@ public class ChatFragment extends Fragment {
         list = new ArrayList<>();
         allUserId = new ArrayList<>();
 
-//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView =view.findViewById(R.id.recyclerview);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         chatsadapter = new chatlistadapter(list, getContext());
-//        recyclerView.setAdapter(chatsadapter);
+        recyclerView.setAdapter(chatsadapter);
 
 
        // progressBar = (ProgressBar) view.findViewById(R.id.progress_circular);
@@ -82,26 +84,21 @@ public class ChatFragment extends Fragment {
         if(firebaseUser != null){
             getChatList();
         }
-//
-//        RecyclerView recyclerview = view.findViewById(R.id.recyclerview);
-//
-//        recyclerview.setAdapter(new chatlistadapter(list,getContext()));
         return view;
     }
 
     private void getChatList() {
 //        progressBar.setVisibility(View.VISIBLE);
+        list.clear();
+        allUserId.clear();;
         referance.child("ChatList").child(firebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                list.clear();
-                allUserId.clear();
                 for(DataSnapshot dsnapshot : snapshot.getChildren()){
                     String userId = Objects.requireNonNull(dsnapshot.child("chatid").getValue()).toString();
                     Log.d(TAG, "OnDataChange: userId"+ userId);
 
-                    progressBar.setVisibility(View.GONE);
+//                    progressBar.setVisibility(View.GONE);
                     allUserId.add(userId);
 
                 }

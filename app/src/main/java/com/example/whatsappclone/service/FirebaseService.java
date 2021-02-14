@@ -20,8 +20,6 @@ import com.google.firebase.storage.UploadTask;
 
 import java.util.HashMap;
 
-import static com.example.whatsappclone.MainActivity.imageUri;
-
 public class FirebaseService {
 
     private Context context;
@@ -30,9 +28,9 @@ public class FirebaseService {
         this.context = context;
     }
 
-    public void uploadImageToFirebaseStorage(Uri uri, final onCallBack onCallBack) {
+    public void uploadImageToFirebaseStorage(Uri uri, final OnCallBack onCallBack) {
 
-            StorageReference reverseref = FirebaseStorage.getInstance().getReference().child("ImagesChats/" + System.currentTimeMillis()+ "." +getFileExtension(imageUri));
+            StorageReference reverseref = FirebaseStorage.getInstance().getReference().child("ImagesChats/" + System.currentTimeMillis()+ "." +getFileExtension(uri));
             reverseref.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -60,7 +58,7 @@ public class FirebaseService {
         return mimeType.getExtensionFromMimeType(contentRes.getType(uri));
     }
 
-    public interface onCallBack{
+    public interface OnCallBack{
         void onUploadSuccess(String imageUrl);
         void onUploadFailure(Exception e);
     }

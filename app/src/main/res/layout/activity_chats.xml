@@ -285,13 +285,12 @@
 
     </androidx.cardview.widget.CardView>
 
-
-
     <LinearLayout
         android:id="@+id/inaction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:visibility="visible"
         android:layout_alignParentBottom="true"
         >
 
@@ -376,15 +375,47 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:src="@drawable/ic_baseline_keyboard_voice_24"
+                android:visibility="invisible"
+                android:src="@drawable/ic_baseline_send_24"
                 >
-
             </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
 
         </LinearLayout>
     </LinearLayout>
 
+    <com.devlomi.record_view.RecordView
+        android:id="@+id/record_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:layout_alignParentBottom="true"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/record_button"
+        app:slide_to_cancel_arrow="@drawable/ic_baseline_arrow_back_ios_24"
+        app:slide_to_cancel_arrow_color="@android:color/black"
+        app:slide_to_cancel_bounds="10dp"
+        app:slide_to_cancel_margin_right="20dp"
+        app:slide_to_cancel_text="Slide To Cancel"
+        app:counter_time_color="#ff0000">
 
+    </com.devlomi.record_view.RecordView>
+
+    <com.devlomi.record_view.RecordButton
+        android:id="@+id/record_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="5dp"
+        android:background="@android:color/darker_gray"
+        android:visibility="visible"
+        android:scaleType="centerInside"
+        app:tint="@android:color/black"
+        android:padding="17dp"
+        app:mic_icon="@drawable/ic_baseline_keyboard_voice_24"
+    >
+
+    </com.devlomi.record_view.RecordButton>
 
 </RelativeLayout>

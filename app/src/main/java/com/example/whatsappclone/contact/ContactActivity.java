@@ -31,8 +31,7 @@ import java.util.List;
 
 public class ContactActivity extends AppCompatActivity {
 
-
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
 
 
     private static final String TAG = "ContactActivity";
@@ -55,6 +54,8 @@ public class ContactActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        firebaseUser =  FirebaseAuth.getInstance().getCurrentUser();
+        firestore =  FirebaseFirestore.getInstance();
 
         btnback.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,13 +65,9 @@ public class ContactActivity extends AppCompatActivity {
         });
 
 
-        firebaseUser =  FirebaseAuth.getInstance().getCurrentUser();
-        firestore =  FirebaseFirestore.getInstance();
-
         if (firebaseUser != null) {
-
             getContactFromPhone();  //If they using this app
-//            getcontactlist();
+
         }
 
         if(mobileArray != null){
@@ -127,6 +124,7 @@ public class ContactActivity extends AppCompatActivity {
 //                String name = cur.getString(cur.getColumnIndex(
 //                        ContactsContract.Contacts.DISPLAY_NAME));
 //                nameList.add(name);
+
                 if (cur.getInt(cur.getColumnIndex( ContactsContract.Contacts.HAS_PHONE_NUMBER)) > 0) {
                     Cursor pCur = cr.query(
                             ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
@@ -136,7 +134,6 @@ public class ContactActivity extends AppCompatActivity {
                     while (pCur.moveToNext()) {
                         String phoneNo = pCur.getString(pCur.getColumnIndex(
                                 ContactsContract.CommonDataKinds.Phone.NUMBER));
-
                         phoneList.add(phoneNo);
                     }
                     pCur.close();
@@ -156,7 +153,6 @@ public class ContactActivity extends AppCompatActivity {
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
                 for(QueryDocumentSnapshot snapshot: queryDocumentSnapshots) {
-                    // Log.d(TAG, "onSuccess: data "+ snapshot.toString());
                     String UserId = snapshot.getString("userId");
                     String username = snapshot.getString("userName");
                     String description = snapshot.getString("bio");
@@ -173,26 +169,14 @@ public class ContactActivity extends AppCompatActivity {
                     user.setUserPhone(userPhone);
 
 
-//                    if (UserId != null && !UserId.equals(firebaseUser.getUid())) {
+                    if (UserId != null && !UserId.equals(firebaseUser.getUid())) {
 
-//                        if (mobileArray.contains(user.getUserPhone())) {
+                     //   if (mobileArray.contains(user.getUserPhone())) {
                            list.add(user);
-                       // }
+                    //    }
 
-                 //   }
-
+                    }
                 }
-
-//
-//                for(users user : list){
-//                    if(mobileArray.contains(user.getUserPhone())) {
-//                        Log.d(TAG, "getContactList: true" + user.getUserPhone());
-//                    }
-//                    else{
-//                        Log.d(TAG, "getContactList: false" + user.getUserPhone());
-//                    }
-//
-//                }
 
                 adapter = new contactsadapter(list, ContactActivity.this);
                 recyclerView.setAdapter(adapter);
@@ -200,4 +184,6 @@ public class ContactActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }
